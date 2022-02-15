@@ -15,7 +15,7 @@
 <body>
 
     <!-- Header -->
-    <?php include('../php-user-authentication/header.php'); ?>
+    <?php include('./header.php'); ?>
 
     <!-- Login script -->
     <?php include('./controllers/login.php'); ?>
@@ -25,7 +25,7 @@
         <div class="vertical-center">
             <div class="inner-block">
 
-                <form action="" method="post">
+                  <form action="controllers/login.php" method="post">
                     <h3>Login</h3>
 
                     <?php echo $accountNotExistErr; ?>

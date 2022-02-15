@@ -11,7 +11,7 @@
     $hostname = "localhost";
     $username = "phpdemo";
     $password = "4Mu99BhzK8dr4vF1";
-    $dbname = "positronx_db";
+    $dbname = "rekisteri_db";
     
     $connection = mysqli_connect($hostname, $username, $password, $dbname) or die("Database connection not established.")
 

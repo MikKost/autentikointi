@@ -1,7 +1,7 @@
 <?php
    
 // Database connection
-require '../../../tunnukset.php';
+require 'controllers/tunnukset.php';
 include('config/db.php');
 require 'Exception.php';
 require 'PHPMailer.php';
@@ -138,7 +138,7 @@ return $tulos;
                     // Send verification email
                     if($sqlQuery) {
                         $msg = 'Click on the activation link to verify your email. <br><br>
-                          <a href="http://localhost:8888/php-user-authentication/user_verificaiton.php?token='.$token.'"> Click here to verify email</a>
+                          <a href="http://localhost:81/autentikointi/user_verificaiton.php?token='.$token.'"> Click here to verify email</a>
                         ';
                         $subject = "Please Verify Email Address!";
                         $result = posti($email,$msg,$subject);
