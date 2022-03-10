@@ -15,8 +15,8 @@ define('SMTPUSERNAME',$smtpUsername);
 define('SMTPPASSWORD',$smtpPassword);
 
 function posti($emailTo,$msg,$subject){
-$emailFrom = "wohjelmointi@gmail.com";
-$emailFromName = "Ohjelmointikurssi";
+$emailFrom = "vkurssi2022@gmail.com";
+$emailFromName = "Vahvistus";
 $emailToName = "";
 $mail = new PHPMailer;
 $mail->isSMTP(); 
@@ -48,17 +48,16 @@ return $tulos;
     //require_once './lib/vendor/autoload.php';
     
     // Error & success messages
-    global $success_msg, $email_exist, $f_NameErr, $l_NameErr, $_emailErr, $_mobileErr, $_passwordErr;
-    global $fNameEmptyErr, $lNameEmptyErr, $emailEmptyErr, $mobileEmptyErr, $passwordEmptyErr, $email_verify_err, $email_verify_success;
+    global $success_msg, $email_exist, $f_NameErr, $l_NameErr, $_emailErr, $_passwordErr;
+    global $fNameEmptyErr, $lNameEmptyErr, $emailEmptyErr, $passwordEmptyErr, $email_verify_err, $email_verify_success;
     
     // Set empty form vars for validation mapping
-    $_first_name = $_last_name = $_email = $_mobile_number = $_password = "";
+    $_first_name = $_last_name = $_email = $_password = "";
 
     if(isset($_POST["submit"])) {
         $firstname     = $_POST["firstname"];
         $lastname      = $_POST["lastname"];
         $email         = $_POST["email"];
-        $mobilenumber  = $_POST["mobilenumber"];
         $password      = $_POST["password"];
 
         // check if email already exist
@@ -68,7 +67,7 @@ return $tulos;
 
         // PHP validation
         // Verify if form values are not empty
-        if(!empty($firstname) && !empty($lastname) && !empty($email) && !empty($mobilenumber) && !empty($password)){
+        if(!empty($firstname) && !empty($lastname) && !empty($email) && !empty($password)){
             
             // check if user email already exist
             if($rowCount > 0) {
@@ -82,7 +81,6 @@ return $tulos;
                 $_first_name = mysqli_real_escape_string($connection, $firstname);
                 $_last_name = mysqli_real_escape_string($connection, $lastname);
                 $_email = mysqli_real_escape_string($connection, $email);
-                $_mobile_number = mysqli_real_escape_string($connection, $mobilenumber);
                 $_password = mysqli_real_escape_string($connection, $password);
 
                 // perform validation
@@ -101,11 +99,7 @@ return $tulos;
                             Email format is invalid.
                         </div>';
                 }
-                if(!preg_match("/^[0-9]{10}+$/", $_mobile_number)) {
-                    $_mobileErr = '<div class="alert alert-danger">
-                            Only 10-digit mobile numbers allowed.
-                        </div>';
-                }
+                
                 if(!preg_match("/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{6,20}$/", $_password)) {
                     $_passwordErr = '<div class="alert alert-danger">
                              Password should be between 6 to 20 charcters long, contains atleast one special chacter, lowercase, uppercase and a digit.
@@ -114,7 +108,7 @@ return $tulos;
                 
                 // Store the data in db, if all the preg_match condition met
                 if((preg_match("/^[a-zA-Z ]*$/", $_first_name)) && (preg_match("/^[a-zA-Z ]*$/", $_last_name)) &&
-                 (filter_var($_email, FILTER_VALIDATE_EMAIL)) && (preg_match("/^[0-9]{10}+$/", $_mobile_number)) && 
+                 (filter_var($_email, FILTER_VALIDATE_EMAIL)) && 
                  (preg_match("/^(?=.*\d)(?=.*[@#\-_$%^&+=§!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=§!\?]{8,20}$/", $_password))){
 
                     // Generate random activation token
@@ -124,8 +118,8 @@ return $tulos;
                     $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
                     // Query
-                    $sql = "INSERT INTO users (firstname, lastname, email, mobilenumber, password, token, is_active,
-                    date_time) VALUES ('{$firstname}', '{$lastname}', '{$email}', '{$mobilenumber}', '{$password_hash}', 
+                    $sql = "INSERT INTO users (firstname, lastname, email, password, token, is_active,
+                    date_time) VALUES ('{$firstname}', '{$lastname}', '{$email}', '{$password_hash}', 
                     '{$token}', '0', now())";
                     
                     // Create mysql query
@@ -138,7 +132,7 @@ return $tulos;
                     // Send verification email
                     if($sqlQuery) {
                         $msg = 'Click on the activation link to verify your email. <br><br>
-                          <a href="http://localhost:81/autentikointi/user_verificaiton.php?token='.$token.'"> Click here to verify email</a>
+                          <a href="http://localhost:81/autentikointi/user_verification.php?token='.$token.'"> Click here to verify email</a>
                         ';
                         $subject = "Please Verify Email Address!";
                         $result = posti($email,$msg,$subject);
@@ -171,11 +165,7 @@ return $tulos;
                     Email can not be blank.
                 </div>';
             }
-            if(empty($mobilenumber)){
-                $mobileEmptyErr = '<div class="alert alert-danger">
-                    Mobile number can not be blank.
-                </div>';
-            }
+           
             if(empty($password)){
                 $passwordEmptyErr = '<div class="alert alert-danger">
                     Password can not be blank.

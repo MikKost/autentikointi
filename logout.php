@@ -1,6 +1,12 @@
+<?php     
+    session_start();
+    session_destroy();
+      
+    header("Location: http://localhost:81/Projekti/signin.php");
+?>
 <?php   
     /* JAu */  
-    $projekti = "autentikointi";
+    $projekti = "projekti";
     if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
         $polku = "https://";   
     else  
@@ -11,5 +17,5 @@
     $_SESSION = array();
     session_destroy();
       
-    header("Location: $polku/index.php");
+    header("Location: $polku/signin.php");
 ;?>

@@ -1,5 +1,8 @@
 <?php
 /* db_functions.php */
+
+
+
 $tiedosto_tunnukset = "controllers/tunnukset.php";
 if (file_exists($tiedosto_tunnukset)) {
   include($tiedosto_tunnukset);

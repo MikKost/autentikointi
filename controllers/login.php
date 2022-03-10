@@ -1,7 +1,7 @@
 <?php
    
     // Database connection
-    include('config/db.php');
+    include('C:\xampp\htdocs\Projekti\config\db.php');
 
     global $wrongPwdErr, $accountNotExistErr, $emailPwdErr, $verificationRequiredErr, $email_empty_err, $pass_empty_err;
 
@@ -41,7 +41,6 @@
                     $firstname     = $row['firstname'];
                     $lastname      = $row['lastname'];
                     $email         = $row['email'];
-                    $mobilenumber   = $row['mobilenumber'];
                     $pass_word     = $row['password'];
                     $token         = $row['token'];
                     $is_active     = $row['is_active'];
@@ -58,7 +57,6 @@
                        $_SESSION['firstname'] = $firstname;
                        $_SESSION['lastname'] = $lastname;
                        $_SESSION['email'] = $email;
-                       $_SESSION['mobilenumber'] = $mobilenumber;
                        $_SESSION['token'] = $token;
 
                         /* JAu */
